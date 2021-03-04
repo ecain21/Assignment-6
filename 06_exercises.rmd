@@ -10,7 +10,6 @@ output:
     code_download: true
 ---
 
-
 ```{r setup, include=FALSE}
 #knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
 ```
@@ -47,7 +46,6 @@ data("garden_harvest")
 
 #COVID-19 data from the New York Times
 covid19 <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
-
 ```
 
 ## Put your homework on GitHub!
@@ -87,7 +85,7 @@ fake_data <- read_csv("https://raw.githubusercontent.com/llendway/scraping_etc/m
     na = "MISSING", skip = 2) %>% 
   mutate(date = mdy(date))
 ```
-  
+
   3. Read in this [data](https://www.kaggle.com/heeraldedhia/groceries-dataset) from the kaggle website. You will need to download the data first. Save it to your project/repo folder. Do some quick checks of the data to assure it has been read in appropriately.
   
 ```{r}
@@ -123,7 +121,6 @@ garden_harvest %>%
   cols_hide(columns = vars(weight)) %>% 
   tab_options(row_group.background.color = "steelblue")
 ```
-
   
   6. Use `patchwork` operators and functions to combine at least two graphs using your project data or `garden_harvest` data if your project data aren't read.
   
@@ -162,8 +159,10 @@ g2 <-garden_harvest %>%
        y = "Weight (pounds)",
        x = "Month")
 
-g11|(g2/g1)
+g11|(g2/g1) +
+  plot_annotation("Fun Garden Data Graphs!")
 ```
 
+**Github Link**
 
-**DID YOU REMEMBER TO UNCOMMENT THE OPTIONS AT THE TOP?**
+[link](https://github.com/ecain21/Assignment-6/blob/main/06_exercises.rmd)
