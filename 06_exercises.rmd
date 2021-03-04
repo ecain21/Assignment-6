@@ -11,7 +11,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
 ```
 
 ```{r libraries}
@@ -124,7 +124,7 @@ garden_harvest %>%
   
   6. Use `patchwork` operators and functions to combine at least two graphs using your project data or `garden_harvest` data if your project data aren't read.
   
-```{r, fig.width=8, fig.height=11}
+```{r, fig.width=10, fig.height=11}
 g1 <- garden_harvest %>%
   mutate(vegetable = str_to_title(vegetable), mo = month(date, label=TRUE))%>% 
   group_by(vegetable, mo, str_to_title(vegetable)) %>% 
