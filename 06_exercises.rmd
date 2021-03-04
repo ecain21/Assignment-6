@@ -91,7 +91,8 @@ fake_data <- read_csv("https://raw.githubusercontent.com/llendway/scraping_etc/m
   3. Read in this [data](https://www.kaggle.com/heeraldedhia/groceries-dataset) from the kaggle website. You will need to download the data first. Save it to your project/repo folder. Do some quick checks of the data to assure it has been read in appropriately.
   
 ```{r}
-groceries_data <- read_csv("Groceries_dataset.csv")
+groceries_data <- read_csv("Groceries_dataset.csv") %>% 
+  mutate(Date=dmy(Date))
 ```
 
   4. CHALLENGE(not graded): Write code to replicate the table shown below (open the .html file to see it) created from the `garden_harvest` data as best as you can. When you get to coloring the cells, I used the following line of code for the `colors` argument:
@@ -103,13 +104,11 @@ colors = scales::col_numeric(
       ) %>% as.character()
 ```
 
-#![](garden_table.html){width=600, height=1000}
-
-
   5. Create a table using `gt` with data from your project or from the `garden_harvest` data if your project data aren't ready.
   
 ```{r}
 garden_harvest %>% 
+  filter(vegetable %in% c("tomatoes", "squash", "potatoes", "peas", "onions", "lettuce", "corn", "carrots", "broccoli", "beets", "beans")) %>% 
   mutate(vegetable=str_to_title(vegetable), variety=str_to_title(variety)) %>% 
   summarise(vegetable, variety, weight) %>% 
   group_by(vegetable, variety) %>% 
@@ -122,13 +121,13 @@ garden_harvest %>%
   tab_header("Vegetable Variety Abundance by Weight") %>% 
   fmt_percent(columns = vars(percent), decimals = 0) %>% 
   cols_hide(columns = vars(weight)) %>% 
-  tab_options(???.background.color = "darkred")
+  tab_options(row_group.background.color = "steelblue")
 ```
 
   
   6. Use `patchwork` operators and functions to combine at least two graphs using your project data or `garden_harvest` data if your project data aren't read.
   
-```{r}
+```{r, fig.width=8, fig.height=11}
 g1 <- garden_harvest %>%
   mutate(vegetable = str_to_title(vegetable), mo = month(date, label=TRUE))%>% 
   group_by(vegetable, mo, str_to_title(vegetable)) %>% 
@@ -146,7 +145,7 @@ g1 <- garden_harvest %>%
 g11<- garden_harvest %>% 
 ggplot(aes(x = date, y = weight)) + 
   geom_point(alpha=0.5, size = 1.5) +
-    facet_wrap(vars(vegetable)) +
+    facet_wrap(vars(vegetable), scales = "free_y") +
   labs(title = "Vegetable Harvest over Time",
        y = "Weight (grams)",
        x = "Month")
@@ -158,7 +157,7 @@ g2 <-garden_harvest %>%
   mutate(cum_lbs = cum_grams*0.00220462) %>% 
   ggplot(aes(x = mo, y = cum_lbs)) + 
     geom_line() +
-      facet_wrap(vars(vegetable)) +
+      facet_wrap(vars(vegetable), scales = "free_y") +
     labs(title = "Vegetable Harvest Weight per Month",
        y = "Weight (pounds)",
        x = "Month")
